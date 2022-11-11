@@ -14,7 +14,7 @@ def mail1(request):
     return render(request,'index.html')
 
 
-
+#https://github.com/SteinOveHelset/contactform/blob/master/contact/views.py
 def mail2(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -24,15 +24,38 @@ def mail2(request):
             email = form.cleaned_data['email']
             content = form.cleaned_data['content']
 
-            html = render_to_string('indexxx.html', {
+            html = render_to_string('mail2a.html', {
                 'name': name,
                 'email': email,
                 'content': content
             })
-
             send_mail('The contact form subject', content, 'abrhambelete.haile@gmail.com', [email], html_message=html)
+            messageSent=True
+            # return redirect('mail2b.html')
+    else:
+        form = ContactForm()
 
-            # return redirect('index.html')
+    return render(request, 'indexx.html', {
+        'form': form
+    })
+
+
+def mail3(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            content = form.cleaned_data['content']
+
+            html = render_to_string('mail2a.html', {
+                'name': name,
+                'email': email,
+                'content': content
+            })
+            send_mail('The contact form subject', content, 'abrhambelete.haile@gmail.com', [email], html_message=html)
+            # return redirect('mail2b.html')
     else:
         form = ContactForm()
 
